@@ -1,0 +1,51 @@
+{
+  "name": "find-me-a-barbell",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/googlemaps": "^3.30.12",
+    "@types/markerclustererplus": "^2.1.33",
+    "@types/react": "^16.4.13",
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-google-maps": "^9.4.5",
+    "react-scripts": "1.1.5",
+    "recompose": "^0.30.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^0.14.3",
+    "jest-dom": "^1.12.0",
+    "lint-staged": "^7.2.2",
+    "prettier": "^1.14.2",
+    "react-testing-library": "^5.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
