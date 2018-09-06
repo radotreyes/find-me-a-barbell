@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
+/* eslint-disable no-console */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable camelcase */
 
 import React from 'react'
 import _ from 'lodash'
@@ -37,12 +39,16 @@ const Map = compose(
         onMapMounted: (ref) => {
           refs.map = ref
         },
-        onBoundsChanged: () => {
-          this.setState({
-            bounds: refs.map.getBounds(),
-            center: refs.map.getCenter(),
-          })
-        },
+        onBoundsChanged: _.debounce(
+          () => {
+            this.setState({
+              bounds: refs.map.getBounds(),
+              center: refs.map.getCenter(),
+            })
+          },
+          100,
+          { maxWait: 500 },
+        ),
         onSearchBoxMounted: (ref) => {
           refs.searchBox = ref
         },
@@ -51,24 +57,63 @@ const Map = compose(
           const bounds = new google.maps.LatLngBounds()
 
           places.forEach((place) => {
+            const {
+              address_components,
+              geometry,
+              id,
+              place_id,
+              url,
+              website,
+            } = place
+
+            console.table(address_components)
+            console.group(`location connecting to maps API`)
+            console.log(geometry.location.lat(), geometry.location.lng())
+            console.groupEnd(`location connecting to maps API`)
+            console.group(`unique ids`)
+            console.log(id, place_id, url, website)
+            console.log(place_id)
+            console.log(url)
+            console.log(website)
+            console.groupEnd(`unique ids`)
+
             if (place.geometry.viewport) {
               bounds.union(place.geometry.viewport)
             } else {
               bounds.extend(place.geometry.location)
             }
           })
-          const nextMarkers = places.map(place => ({
-            position: place.geometry.location,
-          }))
-          const nextCenter = _.get(nextMarkers, `0.position`, this.state.center)
 
-          this.setState({
-            center: nextCenter,
-            markers: nextMarkers,
+          this.setState(() => {
+            const nextMarkers = places.map(place => ({
+              position: place.geometry.location,
+            }))
+            const nextCenter = _.get(
+              nextMarkers,
+              `0.position`,
+              this.state.center,
+            )
+            return {
+              center: nextCenter,
+              markers: nextMarkers,
+            }
           })
           // refs.map.fitBounds(bounds);
         },
       })
+    },
+    componentDidMount() {
+      if (`geolocation` in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const pos = { ...position }
+          this.setState({
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+          })
+        })
+      }
     },
   }),
   withScriptjs,
