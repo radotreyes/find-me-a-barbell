@@ -66,16 +66,16 @@ const Map = compose(
               website,
             } = place
 
-            console.table(address_components)
-            console.group(`location connecting to maps API`)
-            console.log(geometry.location.lat(), geometry.location.lng())
-            console.groupEnd(`location connecting to maps API`)
-            console.group(`unique ids`)
-            console.log(id, place_id, url, website)
-            console.log(place_id)
-            console.log(url)
-            console.log(website)
-            console.groupEnd(`unique ids`)
+            // console.table(address_components)
+            // console.group(`location connecting to maps API`)
+            // console.log(geometry.location.lat(), geometry.location.lng())
+            // console.groupEnd(`location connecting to maps API`)
+            // console.group(`unique ids`)
+            // console.log(id, place_id, url, website)
+            // console.log(place_id)
+            // console.log(url)
+            // console.log(website)
+            // console.groupEnd(`unique ids`)
 
             if (place.geometry.viewport) {
               bounds.union(place.geometry.viewport)
@@ -84,18 +84,30 @@ const Map = compose(
             }
           })
 
-          this.setState(() => {
+          this.setState((prevState) => {
+            /* renders a marker with props */
             const nextMarkers = places.map(place => ({
+              details: place,
               position: place.geometry.location,
+              onClick() {
+                // TODO: show a popover with place details
+                console.log(this.details.formatted_address)
+                console.table(this.details)
+              },
             }))
+
+            console.log(places)
+            console.log([...prevState.markers, ...nextMarkers])
+
             const nextCenter = _.get(
               nextMarkers,
               `0.position`,
               this.state.center,
             )
+
             return {
               center: nextCenter,
-              markers: nextMarkers,
+              markers: [...prevState.markers, ...nextMarkers],
             }
           })
           // refs.map.fitBounds(bounds);
@@ -105,7 +117,6 @@ const Map = compose(
     componentDidMount() {
       if (`geolocation` in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const pos = { ...position }
           this.setState({
             center: {
               lat: position.coords.latitude,
@@ -150,7 +161,13 @@ const Map = compose(
       />
     </SearchBox>
     {props.markers.map((marker, index) => (
-      <Marker key={index} position={marker.position} />
+      <Marker
+        key={index}
+        position={marker.position}
+        onClick={() => {
+          marker.onClick()
+        }}
+      />
     ))}
   </GoogleMap>
 ))
