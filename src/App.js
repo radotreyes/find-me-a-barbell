@@ -1,11 +1,29 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 import Map from './components/Map'
 import logo from './logo.svg'
+import API_KEYS from './data/api-keys'
 import './App.css'
 
-export default class App extends Component {
+const AppGrid = styled.div`
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 1fr 25vw;
+  grid-template-rows: minmax(10vh, auto) 1fr;
+  grid-template-areas:
+    'header header'
+    'map sidebar';
+`
+const SidebarGridChild = styled.div`
+  grid-area: sidebar;
+  padding: 0.5rem;
+  text-align: center;
+`
+
+export default class App extends PureComponent {
   state = {
     markedLocations: [],
+    searchBox: null,
   }
 
   componentDidMount() {
@@ -19,31 +37,44 @@ export default class App extends Component {
     }))
   }
 
+  elevateSearchBox(searchBox) {
+    this.setState(() => ({
+      searchBox,
+    }))
+  }
+
   render() {
-    const { markedLocations } = this.state
+    const { searchBox, markedLocations } = this.state
     return (
-      <div className="App" style={{ display: `flex`, flexFlow: `row wrap` }}>
-        <header className="App-header" style={{ flexBasis: `100vw` }}>
+      <AppGrid>
+        <header
+          className="App-header"
+          style={{
+            gridArea: `header`,
+            textAlign: `center`,
+          }}
+        >
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Find Me a Barbell</h1>
         </header>
-        <div style={{ flexBasis: `50vw` }}>
-          <Map
-            isMarkerShown
-            handleLocationMarked={location => this.handleLocationMarked(location)
-            }
-          />
-        </div>
-        <div style={{ flexBasis: `50vw` }}>
-          {/* // TODO: move these divs to an actual formatted component */}
+        <Map
+          isMarkerShown
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${
+            API_KEYS.gmaps
+          }&v=3.exp&libraries=geometry,drawing,places`}
+          elevateSearchBox={sb => this.elevateSearchBox(sb)}
+          handleLocationMarked={location => this.handleLocationMarked(location)}
+        />
+        <SidebarGridChild>
           <h2>Locations</h2>
+          {searchBox && searchBox}
           <ul>
             {markedLocations.map(location => (
-              <li>{location.details.formatted_address}</li>
+              <li>location</li>
             ))}
           </ul>
-        </div>
-      </div>
+        </SidebarGridChild>
+      </AppGrid>
     )
   }
 }
