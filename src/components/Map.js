@@ -21,9 +21,9 @@ const Map = compose(
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
       API_KEYS.gmaps
     }&v=3.exp&libraries=geometry,drawing,places`,
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
+    loadingElement: <div data-name="loading" style={{ height: `100%` }} />,
+    containerElement: <div data-name="container" style={{ height: `400px` }} />,
+    mapElement: <div data-name="map" style={{ height: `100%` }} />,
   }),
   lifecycle({
     componentWillMount() {
@@ -57,26 +57,6 @@ const Map = compose(
           const bounds = new google.maps.LatLngBounds()
 
           places.forEach((place) => {
-            const {
-              address_components,
-              geometry,
-              id,
-              place_id,
-              url,
-              website,
-            } = place
-
-            // console.table(address_components)
-            // console.group(`location connecting to maps API`)
-            // console.log(geometry.location.lat(), geometry.location.lng())
-            // console.groupEnd(`location connecting to maps API`)
-            // console.group(`unique ids`)
-            // console.log(id, place_id, url, website)
-            // console.log(place_id)
-            // console.log(url)
-            // console.log(website)
-            // console.groupEnd(`unique ids`)
-
             if (place.geometry.viewport) {
               bounds.union(place.geometry.viewport)
             } else {
@@ -86,18 +66,16 @@ const Map = compose(
 
           this.setState((prevState) => {
             /* renders a marker with props */
+            const { handleLocationMarked } = this.props
             const nextMarkers = places.map(place => ({
               details: place,
               position: place.geometry.location,
               onClick() {
                 // TODO: show a popover with place details
-                console.log(this.details.formatted_address)
-                console.table(this.details)
+                const { details, position } = this
+                handleLocationMarked({ details, position })
               },
             }))
-
-            console.log(places)
-            console.log([...prevState.markers, ...nextMarkers])
 
             const nextCenter = _.get(
               nextMarkers,
