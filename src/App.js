@@ -1,6 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import styled from 'styled-components'
 import Map from './components/Map'
+import LocationList from './components/LocationList'
+import Sidebar from './components/Sidebar'
 import logo from './logo.svg'
 import API_KEYS from './data/api-keys'
 import './App.css'
@@ -9,15 +11,11 @@ const AppGrid = styled.div`
   display: grid;
   height: 100vh;
   grid-template-columns: 1fr 25vw;
-  grid-template-rows: minmax(10vh, auto) 1fr;
+  grid-template-rows: 20vh 80vh;
   grid-template-areas:
     'header header'
     'map sidebar';
-`
-const SidebarGridChild = styled.div`
-  grid-area: sidebar;
-  padding: 0.5rem;
-  text-align: center;
+  overflow: hidden;
 `
 
 export default class App extends PureComponent {
@@ -65,15 +63,23 @@ export default class App extends PureComponent {
           elevateSearchBox={sb => this.elevateSearchBox(sb)}
           handleLocationMarked={location => this.handleLocationMarked(location)}
         />
-        <SidebarGridChild>
-          <h2>Locations</h2>
-          {searchBox && searchBox}
-          <ul>
-            {markedLocations.map(location => (
-              <li>location</li>
-            ))}
-          </ul>
-        </SidebarGridChild>
+        <Sidebar>
+          {() => (
+            <Fragment>
+              <div
+                style={{
+                  position: `fixed`,
+                  backgroundColor: `white`,
+                  display: `flex`,
+                  justifyContent: `center`,
+                }}
+              >
+                {searchBox}
+              </div>
+              <LocationList locations={markedLocations} />
+            </Fragment>
+          )}
+        </Sidebar>
       </AppGrid>
     )
   }
