@@ -11,7 +11,7 @@ const AppGrid = styled.div`
   display: grid;
   height: 100vh;
   grid-template-columns: 1fr 25vw;
-  grid-template-rows: 20vh 80vh;
+  grid-template-rows: 1fr 80vh;
   grid-template-areas:
     'header header'
     'map sidebar';
@@ -68,12 +68,18 @@ export default class App extends PureComponent {
             <Fragment>
               <div
                 style={{
-                  position: `fixed`,
-                  backgroundColor: `white`,
-                  display: `flex`,
-                  justifyContent: `center`,
+                  backgroundColor: `#FCFCFC`,
+                  boxShadow: `0 1px 2px 1px rgba(0, 0, 0, .25)`,
+                  gridArea: `sidebar-header`,
+                  padding: `2rem 0`,
+                  marginBottom: `1rem`,
+                  position: `sticky`,
+                  top: 0,
                 }}
               >
+                <div style={{ display: `block`, fontWeight: `bold` }}>
+                  Locations
+                </div>
                 {searchBox}
               </div>
               <LocationList locations={markedLocations} />

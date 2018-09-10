@@ -6,8 +6,10 @@ import LocationItem from './LocationItem'
 const LocationListContainer = styled.div`
   display: flex;
   flex-flow: column;
+  grid-area: sidebar-content;
   justify-content: center;
   align-items: flex-start;
+  align-self: start;
   overflow: hidden;
 `
 
