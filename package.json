@@ -1,43 +1,48 @@
 {
   "name": "find-me-a-barbell",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@types/googlemaps": "^3.30.12",
-    "@types/markerclustererplus": "^2.1.33",
-    "@types/react": "^16.4.13",
-    "lodash": "^4.17.10",
-    "prop-types": "^15.6.2",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-google-maps": "^9.4.5",
-    "react-scripts": "1.1.5",
-    "recompose": "^0.30.0",
-    "styled-components": "^3.4.5"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
+    "start": "meteor run",
     "precommit": "lint-staged"
   },
-  "devDependencies": {
+  "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
+    "@types/googlemaps": "^3.30.13",
+    "@types/markerclustererplus": "^2.1.33",
+    "@types/react": "^16.4.14",
+    "apollo-boost": "^0.1.16",
+    "apollo-client": "^2.4.2",
+    "apollo-client-preset": "^1.0.8",
+    "body-parser": "^1.18.3",
     "eslint": "^5.5.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
-    "husky": "^0.14.3",
-    "jest-dom": "^1.12.0",
-    "lint-staged": "^7.2.2",
+    "express": "^4.16.3",
+    "graphql": "^14.0.2",
+    "graphql-server-express": "^1.4.0",
+    "graphql-tag": "^2.9.2",
+    "graphql-tools": "^3.1.1",
+    "lodash": "^4.17.11",
+    "meteor-node-stubs": "^0.4.1",
     "prettier": "^1.14.2",
-    "react-testing-library": "^5.0.1"
+    "react": "^16.5.1",
+    "react-apollo": "^2.1.11",
+    "react-dom": "^16.5.1",
+    "react-google-maps": "^9.4.5",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "recompose": "^0.30.0",
+    "styled-components": "^3.4.6"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-inline-import": "^3.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "eslint-plugin-graphql": "^2.1.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.2"
   },
   "lint-staged": {
     "*.{js,jsx}": [

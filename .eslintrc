@@ -16,15 +16,17 @@
   },
   "plugins": [],
   "rules": {
+    "import/no-extraneous-dependencies": ["enabled", "never"],
+    "import/no-unresolved": ["enabled", "never"],
     "linebreak-style": ["error", "unix"],
     "max-len": ["error", { "code": 120 }],
     "no-constant-condition": "warn",
     "no-unused-vars": "warn",
     "quotes": ["error", "backtick", { "allowTemplateLiterals": true }],
-    "react/forbid-prop-types": ["enabled", "never"],
+    "react/forbid-prop-types": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-uses-vars": [2],
-    "react/prefer-stateless-function": ["enabled", "never"],
+    "react/prefer-stateless-function": 0,
     "semi": ["error", "never"]
   }
 }
